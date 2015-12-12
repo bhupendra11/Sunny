@@ -1,37 +1,37 @@
     package sunny.app9ation.xyz.sunny;
 
     import android.content.Intent;
-    import android.net.Uri;
-    import android.os.AsyncTask;
-    import android.os.Bundle;
-    import android.support.annotation.Nullable;
-    import android.support.v4.app.Fragment;
-    import android.text.format.Time;
-    import android.util.Log;
-    import android.view.LayoutInflater;
-    import android.view.Menu;
-    import android.view.MenuInflater;
-    import android.view.MenuItem;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.AdapterView;
-    import android.widget.ArrayAdapter;
-    import android.widget.ListView;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.text.format.Time;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-    import org.json.JSONArray;
-    import org.json.JSONException;
-    import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    import java.io.BufferedReader;
-    import java.io.IOException;
-    import java.io.InputStream;
-    import java.io.InputStreamReader;
-    import java.net.HttpURLConnection;
-    import java.net.URL;
-    import java.text.SimpleDateFormat;
-    import java.util.ArrayList;
-    import java.util.Arrays;
-    import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
     /**
      * A placeholder fragment containing a simple view.
@@ -54,31 +54,41 @@
         @Override
         public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
             super.onCreateOptionsMenu(menu, inflater);
-            inflater.inflate(R.menu.forecastfragment,menu);
+            inflater.inflate(R.menu.forecastfragment, menu);
         }
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
-            if(id == R.id.action_refresh){
-                FetchWeatherTask weatherTask = new FetchWeatherTask();
-                weatherTask.execute("302013");
+            if (id == R.id.action_refresh) {
+                updateWeather();
                 return true;
             }
-
-
-
             return super.onOptionsItemSelected(item);
+        }
+
+        private void updateWeather(){
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+
+        //get location settings using SharedPrefences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key),  getString(R.string.pref_location_default));
+
+        weatherTask.execute(location);
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            updateWeather();
+
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView =  inflater.inflate(R.layout.fragment_main, container, false);
-            //fake data ..for no network initially
-            String[] forecastArray = {"Today-sunny-88/63", "Tomorrow-sunny-88/63", "Wed-sunny-88/63", "Thurs-foggy-88/63", "Fri-sunny-88/63", "Sat-sunny-88/63"};
 
-            List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
              mForecastAdapter = new ArrayAdapter<String>(
                     getActivity(),
                     //ID of list item layout
@@ -86,7 +96,7 @@
                     // ID of the textview to populate
                     R.id.list_item_forecast_textview,
                     //arraylist of items
-                    weekForecast);
+                   new ArrayList<String>());
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
             listView.setAdapter(mForecastAdapter);
@@ -126,6 +136,23 @@
              */
             private String formatHighLows(double high, double low) {
              // For presentation, assume the user doesn't care about tenths of a degree.
+
+                //Data fectched in Celsius by default.
+                //We check here if user prefers celsius or fahrenheit and perform required conversion
+
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String unitType = sharedPrefs.getString(
+                                    getString(R.string.pref_temperature_units_key),
+                                    getString(R.string.pref_temperature_units_default)
+                                    );
+                if(unitType.equals(getString(R.string.pref_units_imperial))){
+                    high = (high* 1.8) +32;
+                    low = (low * 1.8) +32;
+                }
+                else if(!unitType.equals(getString(R.string.pref_units_metric))){
+                    Log.d(LOG_TAG,"unit type not found "+unitType);
+                }
+
                 long roundedHigh = Math.round(high);
                 long roundedLow = Math.round(low);
                 String highLowStr = roundedHigh + "/" + roundedLow;

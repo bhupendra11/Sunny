@@ -1,0 +1,14 @@
+
+
+<resources>
+
+    <string-array name="tempListArray">
+        <item>Imperial</item>
+        <item>Metric</item>
+    </string-array>
+    <string-array name="tempListValues">
+        <item>imperial</item>
+        <item>metric</item>
+    </string-array>
+
+</resources>
