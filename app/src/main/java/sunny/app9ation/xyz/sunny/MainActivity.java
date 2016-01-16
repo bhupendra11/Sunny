@@ -14,6 +14,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+   // private final String "Inside " +  MainActivity.class.getEnclosingMethod().getName(); = "Inside " +  MainActivity.class.getEnclosingMethod().getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        Log.d(LOG_TAG, "Inside onCreate");
 
     }
 
@@ -68,17 +69,45 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
 
 
+    // Lifecycle events
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(LOG_TAG, "Inside onPause()");
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(LOG_TAG, "Inside onRestart()");
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "Inside onResume()");
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "Inside onStop()");
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "Inside onDestroy()");
+    }
 
-
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "Inside onStart()");
     }
 }

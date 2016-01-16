@@ -222,10 +222,6 @@ import java.util.ArrayList;
             }
 
 
-
-
-
-
             @Override
             protected String[] doInBackground(String... params) {
 
@@ -342,10 +338,6 @@ import java.util.ArrayList;
 
             }
         }
-
-
-
-
 
 
 
