@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,15 +14,23 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
    // private final String "Inside " +  MainActivity.class.getEnclosingMethod().getName(); = "Inside " +  MainActivity.class.getEnclosingMethod().getName();
+
+    public static String mLocation;
+    public static final String FORECASTFRAGMENT_TAG = "FFTAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Log.d(LOG_TAG, "Inside onCreate");
 
+        mLocation = Utility.getPreferredLocation(this);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
+                    .commit();
+        }
     }
 
     @Override
@@ -42,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
             return  true;
         }
         if(id== R.id.action_map){
-           openPrefferedLocationInMap();
+           openPreferredLocationInMap();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPrefferedLocationInMap() {
+    private void openPreferredLocationInMap() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String location = sharedPrefs.getString(getString(R.string.pref_location_key),
                                 getString(R.string.pref_location_default)
@@ -71,6 +78,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "Inside onResume()");
+
+        String location = Utility.getPreferredLocation(this);
+        if((location != null) && (location != mLocation)){
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+
+            if ( null != ff ) {
+                ff.onLocationChanged();
+            }
+            mLocation = location;
+        }
+    }
+
 
     // Lifecycle events
 
@@ -87,11 +110,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Inside onRestart()");
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "Inside onResume()");
-    }
 
     @Override
     protected void onStop() {
@@ -105,9 +123,5 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Inside onDestroy()");
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "Inside onStart()");
-    }
+
 }

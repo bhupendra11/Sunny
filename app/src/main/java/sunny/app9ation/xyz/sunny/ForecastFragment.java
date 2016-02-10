@@ -1,26 +1,24 @@
     package sunny.app9ation.xyz.sunny;
 
     import android.content.Intent;
-    import android.content.SharedPreferences;
-    import android.database.Cursor;
-    import android.net.Uri;
-    import android.os.Bundle;
-    import android.preference.PreferenceManager;
-    import android.support.annotation.Nullable;
-    import android.support.v4.app.Fragment;
-    import android.support.v4.app.LoaderManager;
-    import android.support.v4.content.CursorLoader;
-    import android.support.v4.content.Loader;
-    import android.view.LayoutInflater;
-    import android.view.Menu;
-    import android.view.MenuInflater;
-    import android.view.MenuItem;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.AdapterView;
-    import android.widget.ListView;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-    import sunny.app9ation.xyz.sunny.data.WeatherContract;
+import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
     /**
      * A placeholder fragment containing a simple view.
@@ -86,22 +84,18 @@
             return super.onOptionsItemSelected(item);
         }
 
-        private void updateWeather(){
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getContext());
-
-        //get location settings using SharedPrefences
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = prefs.getString(getString(R.string.pref_location_key),  getString(R.string.pref_location_default));
-
-        weatherTask.execute(location);
-        }
-
-        @Override
-        public void onStart() {
-            super.onStart();
+        public void onLocationChanged(){
             updateWeather();
-
+            getLoaderManager().restartLoader(FORECAST_LOADER,null,this);
         }
+
+        private void updateWeather(){
+             FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
+             String location = Utility.getPreferredLocation(getActivity());
+
+            weatherTask.execute(location);
+        }
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
