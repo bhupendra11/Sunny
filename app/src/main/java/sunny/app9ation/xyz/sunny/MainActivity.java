@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
    // private final String "Inside " +  MainActivity.class.getEnclosingMethod().getName(); = "Inside " +  MainActivity.class.getEnclosingMethod().getName();
+    public static  String mLocation ;
+    public static final String FORECASTFRAGMENT_TAG ="FFTAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Log.d(LOG_TAG, "Inside onCreate");
+
+        mLocation = Utility.getPreferredLocation(this);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
+                    .commit();
+        }
 
     }
 
@@ -71,6 +81,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String location = Utility.getPreferredLocation( this );
+        if(location != null && !location.equals(mLocation)){
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+            if(ff!= null) {
+                ff.onLocationChanged();
+            }
+            mLocation = location;
+        }
+        Log.d(LOG_TAG, "Inside onResume()");
+    }
+
 
     // Lifecycle events
 
@@ -87,11 +111,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Inside onRestart()");
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "Inside onResume()");
-    }
+
 
     @Override
     protected void onStop() {

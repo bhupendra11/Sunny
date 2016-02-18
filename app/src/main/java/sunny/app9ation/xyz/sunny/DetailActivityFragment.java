@@ -61,6 +61,7 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
@@ -77,14 +78,16 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.detailfragment, menu);
 
+        // Retrieve the share menu item
         MenuItem menuItem = menu.findItem(R.id.action_share);
 
-         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        // Get the provider and hold onto it to set/change the share intent.
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
-        if(mForecastStr != null){
+        // If onLoadFinished happens before this, we can go ahead and set the share intent now.
+        if (mForecastStr != null) {
             mShareActionProvider.setShareIntent(createShareForecastIntent());
         }
-
 
     }
 
