@@ -26,7 +26,9 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
         ForecastAdapter mForecastAdapter;
         public static final int FORECAST_LOADER =0;
-        public  static int mPosition;
+        private int mPosition = ListView.INVALID_POSITION;
+        private ListView mListView;
+        public static final String SELECTED_KEY = "selected_position";
 
         private static final String[] FORECAST_COLUMNS = {
                 // In this case the id needs to be fully qualified with a table name, since
@@ -142,10 +144,19 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
                 }
             });
 
+            if(savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY));
+
 
             return rootView;
         }
 
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            if(mPosition != ListView.INVALID_POSITION){
+                outState.putInt(SELECTED_KEY,mPosition);
+            }
+            super.onSaveInstanceState(outState);
+        }
 
         @Override
         public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -171,8 +182,13 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-            mForecastAdapter.swapCursor(cursor);
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                   mForecastAdapter.swapCursor(data);
+                   if (mPosition != ListView.INVALID_POSITION) {
+                       // If we don't need to restart the loader, and there's a desired position to restore
+                       // to, do so now.
+                     mListView.smoothScrollToPosition(mPosition);
+                   }
         }
 
 

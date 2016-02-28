@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <!-- State when a row is being pressed, but hasn't yet been activated (finger down) -->
-    <item android:state_pressed="true"
-        android:drawable="@color/sunshine_light_blue" />
+    <item android:state_pressed="true">
+        <ripple android:color="@color/grey" />
+    </item>
 
     <!-- When the view is "activated".  In SINGLE_CHOICE_MODE, it flags the active row
          of a ListView -->
