@@ -1,7 +1,6 @@
     package sunny.app9ation.xyz.sunny;
 
-    import android.content.Intent;
-import android.database.Cursor;
+    import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +26,7 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
         ForecastAdapter mForecastAdapter;
         public static final int FORECAST_LOADER =0;
+        public  static int mPosition;
 
         private static final String[] FORECAST_COLUMNS = {
                 // In this case the id needs to be fully qualified with a table name, since
@@ -61,6 +61,20 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
         public ForecastFragment() {
         }
+
+        /**
+         * A callback interface that all activities containing this fragment must
+         * implement. This mechanism allows activities to be notified of item
+         * selections.
+         */
+        public interface Callback {
+            /**
+             * DetailFragmentCallback for when an item has been selected.
+             */
+            public void onItemSelected(Uri dateUri);
+
+        }
+
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,12 +135,10 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
                     Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                     if (cursor != null) {
                         String locationSetting = Utility.getPreferredLocation(getActivity());
-                        Intent intent = new Intent(getActivity(), DetailActivity.class)
-                                .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                        locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                                ));
-                        startActivity(intent);
+
+                        ((Callback)getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,cursor.getLong(COL_WEATHER_DATE)));
                     }
+                    mPosition = position;
                 }
             });
 

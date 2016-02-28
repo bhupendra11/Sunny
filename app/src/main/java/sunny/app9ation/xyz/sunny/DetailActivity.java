@@ -1,21 +1,29 @@
 package sunny.app9ation.xyz.sunny;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         if(savedInstanceState ==null){
+
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(DetailActivityFragment.DETAIL_URI,getIntent().getData());
+
+            DetailActivityFragment fragment = new DetailActivityFragment();
+            fragment.setArguments(arguments);
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.weather_detail_container,new DetailActivityFragment())
+                    .add(R.id.weather_detail_container,fragment)
                     .commit();
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -46,4 +54,8 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(Uri dateUri) {
+
+    }
 }
