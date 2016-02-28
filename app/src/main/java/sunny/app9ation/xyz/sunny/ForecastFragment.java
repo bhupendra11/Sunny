@@ -126,9 +126,9 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
             mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
 
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-            listView.setAdapter(mForecastAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+            mListView.setAdapter(mForecastAdapter);
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView adapterView, View view, int position, long l) {
@@ -144,7 +144,11 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
                 }
             });
 
-            if(savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY));
+            if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+                // The listview probably hasn't even been populated yet.  Actually perform the
+                // swapout in onLoadFinished.
+                mPosition = savedInstanceState.getInt(SELECTED_KEY);
+            }
 
 
             return rootView;
@@ -187,6 +191,7 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
                    if (mPosition != ListView.INVALID_POSITION) {
                        // If we don't need to restart the loader, and there's a desired position to restore
                        // to, do so now.
+
                      mListView.smoothScrollToPosition(mPosition);
                    }
         }
