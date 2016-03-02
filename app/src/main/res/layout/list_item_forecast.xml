@@ -34,7 +34,7 @@
         >
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_date_textview"
             android:text="Tomorrow"
@@ -46,7 +46,7 @@
 
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_forecast_textview"
             android:fontFamily="sans-serif-condensed"
@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:orientation="vertical"
+        android:layout_gravity="center"
         android:layout_weight="5"
         tools:background ="#ededca"
 

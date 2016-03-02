@@ -1,31 +1,41 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="left"
     android:padding="16dp"
     android:orientation="vertical"
     tools:context="sunny.app9ation.xyz.sunny.DetailActivityFragment"
     tools:showIn="@layout/activity_detail"
     >
 
-    <TextView
-        android:id="@+id/detail_day_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Today"
-        android:padding="12dp"
-         />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="June 24"
-        android:padding="12dp"
-        android:id="@+id/detail_date_textview"/>
+    <!-- Layout for dayView and dateView            -->
+
+
+        <TextView
+            android:id="@+id/detail_day_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Today"
+
+             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="June 24"
+            android:textColor="@color/grey_700"
+            android:id="@+id/detail_date_textview"/>
+
 
     <!-- Main content - high, low, art, weather state-->
 
@@ -34,16 +44,14 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/detail_middle_component"
-    android:layout_marginTop="16dp"
-        android:baselineAligned="false"
-        >
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="16dp"        >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_gravity="left"
         tools:background="#ab7711"
         android:gravity="left"
 
@@ -52,29 +60,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="96sp"
+            android:fontFamily="sans-serif-light"
             android:text="21&#xb0;"
             android:id="@+id/detail_high_textview"
-            android:padding="10dp"/>
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center_horizontal"
+            android:textSize="48sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/grey_700"
             android:text="8&#xb0;"
             android:id="@+id/detail_low_textview"
-            android:padding="10dp"
+
             />
 
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         tools:background="#eacd12"
-        android:padding="16dp"
         android:gravity="center_horizontal"
+        android:layout_gravity="center"
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -88,35 +100,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/detail_forecast_textview"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/grey_700"
             android:text="Clear"
-            android:padding="10dp"/>
+           />
 
     </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
     <!-- humidity , wind , pressure -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="0dp"
+        tools:background="#1acd12"
+        >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:fontFamily="sans-serif-light"
         android:text="Humidity: 84%"
-        android:padding="12dp"
         android:id="@+id/detail_humidity_textview"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:fontFamily="sans-serif-light"
         android:text="Wind 6km/H NW"
-        android:padding="12dp"
+        android:layout_marginTop="4dp"
         android:id="@+id/detail_wind_textview"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:fontFamily="sans-serif-light"
         android:text="PRESURRE: 1014  hPa"
-        android:padding="12dp"
+        android:layout_marginTop="4dp"
         android:id="@+id/detail_pressure_textview"/>
+
+        </LinearLayout>
 
 
 </LinearLayout>

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
 //        setSupportActionBar(toolbar);
       //  getSupportActionBar().setDisplayShowTitleEnabled(false);                   // Removes the app name from actionbar so that only logo is visible
 
-        getSupportActionBar().setElevation(0f);
+      //  getSupportActionBar().setElevation(0f);
 
         if (findViewById(R.id.weather_detail_container) != null ) {
             // The detail container view will be present only in the large-screen layouts

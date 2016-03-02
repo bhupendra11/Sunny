@@ -3,8 +3,8 @@
         android:layout_width="match_parent"
         android:id="@+id/listview_forecast"
         android:layout_height="match_parent"
-        android:scrollbarSize="3dp"
-    style="@style/ForecastListStyle"
+        android:divider="@null"
+        style="@style/ForecastListStyle"
 
     >
 
