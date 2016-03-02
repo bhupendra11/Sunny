@@ -178,6 +178,10 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
 
             String description = data.getString(COL_WEATHER_DESC);
 
+
+            //for increasing app accessibility
+            mIconView.setContentDescription(description);
+
             boolean isMetric = Utility.isMetric(getActivity());
 
             String high = Utility.formatTemperature(getContext(),
