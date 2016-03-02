@@ -9,21 +9,27 @@
     android:background="@drawable/touch_selector"
 
     >
-    <ImageView
-        android:id="@+id/list_item_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="Weather representational image"
 
-         >
-        </ImageView>
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/list_item_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="Weather representational image"
+
+             >
+            </ImageView>
+    </FrameLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:orientation="vertical"
-        android:layout_weight="1"
+        android:layout_weight="7"
         tools:background ="#ababeb"
         >
 
@@ -32,6 +38,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/list_item_date_textview"
             android:text="Tomorrow"
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="?android:textAppearanceLarge"
             >
 
         </TextView>
@@ -41,6 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_forecast_textview"
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="?android:textAppearanceSmall"
             android:text="Clear"
             >
         </TextView>
@@ -48,8 +58,9 @@
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:orientation="vertical"
+        android:layout_weight="5"
         tools:background ="#ededca"
 
         >
@@ -57,7 +68,10 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:id="@+id/list_item_high_textview"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:fontFamily="sans-serif-condensed"
             android:text="50&#xb0;"
             >
 
@@ -67,7 +81,10 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:id="@+id/list_item_low_textview"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:fontFamily="sans-serif-condensed"
             android:text="25&#xb0;"
             >
         </TextView>
