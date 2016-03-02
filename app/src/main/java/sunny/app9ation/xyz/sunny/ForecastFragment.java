@@ -29,6 +29,7 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
         private int mPosition = ListView.INVALID_POSITION;
         private ListView mListView;
         public static final String SELECTED_KEY = "selected_position";
+        private boolean mUseTodayLayout ;
 
         private static final String[] FORECAST_COLUMNS = {
                 // In this case the id needs to be fully qualified with a table name, since
@@ -60,6 +61,7 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
         static final int COL_WEATHER_CONDITION_ID = 6;
         static final int COL_COORD_LAT = 7;
         static final int COL_COORD_LONG = 8;
+
 
         public ForecastFragment() {
         }
@@ -124,6 +126,7 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
             View rootView =  inflater.inflate(R.layout.fragment_main, container, false);
 
             mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
 
             mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -152,6 +155,14 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
 
             return rootView;
+        }
+
+        public void setUseTodayLayout(boolean useTodayLayout){
+
+            mUseTodayLayout = useTodayLayout;
+            if(mForecastAdapter != null){
+                mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+            }
         }
 
         @Override

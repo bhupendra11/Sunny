@@ -18,19 +18,19 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
     public static  String mLocation ;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     public static boolean mTwoPane;
-    //boolean isTablet = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocation = Utility.getPreferredLocation(this);
 
-
-        // isTablet = getResources().getBoolean(R.bool.isTablet);
-     //   Log.d(LOG_TAG,"Inside MainActivity onCreate and isTablet = "+isTablet);
-
-
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);                   // Removes the app name from actionbar so that only logo is visible
+        getSupportActionBar().setElevation(0f);
+
         if (findViewById(R.id.weather_detail_container) != null ) {
             // The detail container view will be present only in the large-screen layouts
             // (res/layout-sw600dp). If this view is present, then the activity should be
@@ -50,8 +50,11 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
         } else {
             mTwoPane = false;
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ForecastFragment forecastFragment = ((ForecastFragment )getSupportFragmentManager().findFragmentById(R.id.fragment_forecast));
+
+        forecastFragment.setUseTodayLayout(!mTwoPane);
+
+
 
 
     }
