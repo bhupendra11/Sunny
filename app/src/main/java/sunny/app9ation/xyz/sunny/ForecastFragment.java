@@ -1,5 +1,6 @@
     package sunny.app9ation.xyz.sunny;
 
+    import android.content.Intent;
     import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import sunny.app9ation.xyz.sunny.data.WeatherContract;
+    import sunny.app9ation.xyz.sunny.service.SunshineService;
 
     /**
      * A placeholder fragment containing a simple view.
@@ -104,12 +106,12 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
         }
 
         private void updateWeather(){
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getContext());
-
-        //get location settings using SharedPrefences
+            //get location settings using SharedPrefences
         String location = Utility.getPreferredLocation(getActivity());
 
-        weatherTask.execute(location);
+            Intent intent = new Intent(getActivity(),SunshineService.class);
+            intent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,location);
+            getActivity().startService(intent);
         }
 
 
