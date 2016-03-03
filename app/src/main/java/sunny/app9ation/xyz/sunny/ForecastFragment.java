@@ -1,7 +1,10 @@
     package sunny.app9ation.xyz.sunny;
 
-    import android.content.Intent;
-    import android.database.Cursor;
+    import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import sunny.app9ation.xyz.sunny.data.WeatherContract;
-    import sunny.app9ation.xyz.sunny.service.SunshineService;
+import sunny.app9ation.xyz.sunny.service.SunshineService;
 
     /**
      * A placeholder fragment containing a simple view.
@@ -32,6 +35,8 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
         private ListView mListView;
         public static final String SELECTED_KEY = "selected_position";
         private boolean mUseTodayLayout ;
+        private AlarmManager alarmMgr;
+        private PendingIntent alarmIntent;
 
         private static final String[] FORECAST_COLUMNS = {
                 // In this case the id needs to be fully qualified with a table name, since
@@ -112,6 +117,21 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
             Intent intent = new Intent(getActivity(),SunshineService.class);
             intent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,location);
             getActivity().startService(intent);
+
+
+            // For setting up repeating alarms
+           AlarmManager alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+
+            Intent alarmIntent  = new Intent(getActivity(), SunshineService.AlarmReceiver.class);       // This explicit intent triggers AlarmReceiver4
+            alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getActivity()));
+
+           PendingIntent pi  = PendingIntent.getBroadcast(getContext(), 0, alarmIntent, PendingIntent.FLAG_ONE_SHOT);                // PendingIntent as a wrapper of intent
+
+
+            // Fire a one time alrm in 5 sec
+            alarmMgr.set(AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() +
+                            5 * 1000, pi);
         }
 
 

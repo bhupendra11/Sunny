@@ -43,8 +43,10 @@
             android:authorities = "sunny.app9ation.xyz.sunny"
             android:name=".data.WeatherProvider"
             />
-        <service android:name=".service.SunshineService"/>
-
+        <service android:name=".service.SunshineService"
+            />
+        <receiver android:name=".service.SunshineService$AlarmReceiver"
+            />
     </application>
 
 </manifest>
