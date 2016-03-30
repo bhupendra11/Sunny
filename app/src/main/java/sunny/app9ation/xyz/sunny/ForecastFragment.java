@@ -1,28 +1,30 @@
     package sunny.app9ation.xyz.sunny;
 
     import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+    import android.app.PendingIntent;
+    import android.content.Intent;
+    import android.database.Cursor;
+    import android.net.Uri;
+    import android.os.Bundle;
+    import android.support.annotation.Nullable;
+    import android.support.v4.app.Fragment;
+    import android.support.v4.app.LoaderManager;
+    import android.support.v4.content.CursorLoader;
+    import android.support.v4.content.Loader;
+    import android.util.Log;
+    import android.view.LayoutInflater;
+    import android.view.Menu;
+    import android.view.MenuInflater;
+    import android.view.MenuItem;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.AdapterView;
+    import android.widget.ListView;
 
-import sunny.app9ation.xyz.sunny.data.WeatherContract;
-import sunny.app9ation.xyz.sunny.service.SunshineService;
+    import sunny.app9ation.xyz.sunny.data.WeatherContract;
+    import sunny.app9ation.xyz.sunny.data.WeatherContract.LocationEntry;
+    import sunny.app9ation.xyz.sunny.data.WeatherContract.WeatherEntry;
+    import sunny.app9ation.xyz.sunny.sync.SunshineSyncAdapter;
 
     /**
      * A placeholder fragment containing a simple view.
@@ -38,6 +40,8 @@ import sunny.app9ation.xyz.sunny.service.SunshineService;
         private AlarmManager alarmMgr;
         private PendingIntent alarmIntent;
 
+        public static final String LOG_TAG = ForecastFragment.class.getSimpleName();
+
         private static final String[] FORECAST_COLUMNS = {
                 // In this case the id needs to be fully qualified with a table name, since
                 // the content provider joins the location & weather tables in the background
@@ -45,15 +49,15 @@ import sunny.app9ation.xyz.sunny.service.SunshineService;
                 // On the one hand, that's annoying.  On the other, you can search the weather table
                 // using the location set by the user, which is only in the Location table.
                 // So the convenience is worth it.
-                WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
-                WeatherContract.WeatherEntry.COLUMN_DATE,
-                WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
-                WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
-                WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
-                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
-                WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
-                WeatherContract.LocationEntry.COLUMN_COORD_LAT,
-                WeatherContract.LocationEntry.COLUMN_COORD_LONG,
+               WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
+               WeatherEntry.COLUMN_DATE,
+               WeatherEntry.COLUMN_SHORT_DESC,
+               WeatherEntry.COLUMN_MAX_TEMP,
+               WeatherEntry.COLUMN_MIN_TEMP,
+               WeatherEntry.COLUMN_WEATHER_ID,
+               LocationEntry.COLUMN_LOCATION_SETTING,
+               LocationEntry.COLUMN_COORD_LAT,
+               LocationEntry.COLUMN_COORD_LONG,
 
         };
 
@@ -64,8 +68,8 @@ import sunny.app9ation.xyz.sunny.service.SunshineService;
         static final int COL_WEATHER_DESC = 2;
         static final int COL_WEATHER_MAX_TEMP = 3;
         static final int COL_WEATHER_MIN_TEMP = 4;
-        static final int COL_LOCATION_SETTING = 5;
-        static final int COL_WEATHER_CONDITION_ID = 6;
+        static final int COL_WEATHER_CONDITION_ID = 5;
+        static final int COL_LOCATION_SETTING = 6;
         static final int COL_COORD_LAT = 7;
         static final int COL_COORD_LONG = 8;
 
@@ -100,18 +104,35 @@ import sunny.app9ation.xyz.sunny.service.SunshineService;
             inflater.inflate(R.menu.forecastfragment, menu);
         }
 
+
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
-            if (id == R.id.action_refresh) {
-                updateWeather();
+            if(id== R.id.action_settings){
+                Intent intent = new Intent(getContext(),SettingsActivity.class);
+                startActivity(intent);
+                return  true;
+            }
+            if(id== R.id.action_map){
+                openPrefferedLocationInMap();
                 return true;
             }
+           /* if (id == R.id.action_refresh) {
+                updateWeather();
+                return true;
+            }*/
+
             return super.onOptionsItemSelected(item);
         }
 
+
         private void updateWeather(){
-            //get location settings using SharedPrefences
+
+            SunshineSyncAdapter.syncImmediately(getContext());
+
+
+
+       /*     //get location settings using SharedPrefences
         String location = Utility.getPreferredLocation(getActivity());
 
             Intent intent = new Intent(getActivity(),SunshineService.class);
@@ -131,8 +152,35 @@ import sunny.app9ation.xyz.sunny.service.SunshineService;
             // Fire a one time alrm in 5 sec
             alarmMgr.set(AlarmManager.RTC_WAKEUP,
                     System.currentTimeMillis() +
-                            5 * 1000, pi);
+                            5 * 1000, pi);*/
+
+
         }
+
+        private void openPrefferedLocationInMap() {
+            if ( null != mForecastAdapter ) {
+                Cursor c = mForecastAdapter.getCursor();
+                if ( null != c ) {
+                    c.moveToPosition(0);
+                    String posLat = c.getString(COL_COORD_LAT);
+                    String posLong = c.getString(COL_COORD_LONG);
+                    Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(geoLocation);
+
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(intent);
+                    } else {
+                        Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
+                    }
+                }
+
+            }
+
+        }
+
+
 
 
 

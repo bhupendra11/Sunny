@@ -1,14 +1,14 @@
 package sunny.app9ation.xyz.sunny;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import sunny.app9ation.xyz.sunny.sync.SunshineSyncAdapter;
 
 public class MainActivity extends AppCompatActivity  implements ForecastFragment.Callback{
 
@@ -25,11 +25,9 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
         mLocation = Utility.getPreferredLocation(this);
 
         setContentView(R.layout.activity_main);
-     //   Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-      //  getSupportActionBar().setDisplayShowTitleEnabled(false);                   // Removes the app name from actionbar so that only logo is visible
 
-      //  getSupportActionBar().setElevation(0f);
+        // Initialize Sync using sycAdapter
+        SunshineSyncAdapter.initializeSyncAdapter(this);
 
         if (findViewById(R.id.weather_detail_container) != null ) {
             // The detail container view will be present only in the large-screen layouts
@@ -66,43 +64,24 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if(id== R.id.action_settings){
-            Intent intent = new Intent(this,SettingsActivity.class);
-            startActivity(intent);
-            return  true;
-        }
-        if(id== R.id.action_map){
-           openPrefferedLocationInMap();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPrefferedLocationInMap() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String location = sharedPrefs.getString(getString(R.string.pref_location_key),
-                                getString(R.string.pref_location_default)
-                        );
 
-        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q",location)
-                .build();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geoLocation);
-
-        if(intent.resolveActivity(getPackageManager())!=null){
-            startActivity(intent);
-        }
-        else{
-            Log.d(LOG_TAG,"Could'nt call "+location+" , no syupported app found");
-        }
-
-
-    }
 
     @Override
     protected void onResume() {
