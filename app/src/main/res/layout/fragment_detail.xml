@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="left"
+    android:layout_gravity="start"
     android:padding="16dp"
     android:orientation="vertical"
     tools:context="sunny.app9ation.xyz.sunny.DetailActivityFragment"
@@ -51,7 +51,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         tools:background="#ab7711"
         android:gravity="left"
 
@@ -117,6 +117,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:layout_marginRight="0dp"
+        android:layout_marginEnd="0dp"
         tools:background="#1acd12"
         >
 
