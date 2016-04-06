@@ -1,14 +1,37 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-
-        android:layout_width="match_parent"
-        android:id="@+id/listview_forecast"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        style="@style/ForecastListStyle"
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_detail_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity"
+    tools:ignore="MergeRootFrame"
     >
+
+
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            android:layout_width="match_parent"
+            android:id="@+id/listview_forecast"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            style="@style/ForecastListStyle"
+
+        >
 
     </ListView>
 
 
+    <TextView
+    android:id="@+id/empty_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="@string/empty_forecast_list"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"/>
+
+
+</FrameLayout>
 

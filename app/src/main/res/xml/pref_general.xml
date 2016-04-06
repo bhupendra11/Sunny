@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom= "http://schemas.android.com/apk/res/sunny.app9ation.xyz.sunny"
     android:layout_width ="match_parent"
     android:layout_height ="match_parent"
     >
 
-    <EditTextPreference
+    <sunny.app9ation.xyz.sunny.LocationEditTextPreference
         android:title="@string/pref_location_label"
         android:key="@string/pref_location_key"
         android:defaultValue="@string/pref_location_default"
         android:singleLine="true"
-        android:inputType="text"/>
+        android:inputType="text"
+        custom:minLength="3"/>
 
     <ListPreference
         android:title="@string/pref_temperature_units_label"

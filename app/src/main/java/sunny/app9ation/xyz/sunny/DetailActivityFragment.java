@@ -172,11 +172,13 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
             int weatherCondnResource = Utility.getArtResourceForWeatherCondition(weatherId);
             mIconView.setImageResource(weatherCondnResource);
 
+
             long date = data.getLong(COL_WEATHER_DATE);
             String friendlyDateText = Utility.getDayName(getActivity(), date);
             String dateText = Utility.getFormattedMonthDay(getActivity(),date);
 
             String description = data.getString(COL_WEATHER_DESC);
+            mIconView.setContentDescription(getString(R.string.a11y_forecast_icon, description));
 
 
             //for increasing app accessibility
@@ -185,10 +187,10 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
             boolean isMetric = Utility.isMetric(getActivity());
 
             String high = Utility.formatTemperature(getContext(),
-                    data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+                    data.getDouble(COL_WEATHER_MAX_TEMP));
 
             String low = Utility.formatTemperature(getContext(),
-                    data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+                    data.getDouble(COL_WEATHER_MIN_TEMP));
 
             // mForecastStr = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
 
@@ -202,11 +204,19 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
             mDateView.setText(dateText);
             mFriendlyDateView.setText(friendlyDateText);
             mDescriptionView.setText(description);
+            mDescriptionView.setText(getString(R.string.a11y_forecast,description));
+
             mHighTempView.setText(high);
+            mHighTempView.setContentDescription(getString(R.string.a11y_high_temp, high));
             mLowTempView.setText(low);
+            mLowTempView.setContentDescription(getString(R.string.a11y_low_temp,low));
+
             mHumidityView.setText(getActivity().getString(R.string.format_humidity,humidity));
+            mHumidityView.setContentDescription(mHumidityView.getText());
             mPressureView.setText(getActivity().getString(R.string.format_pressure,pressure));
+            mPressureView.setText(mPressureView.getText());
             mWindView.setText(wind);
+            mWindView.setText(mWindView.getText());
 
 
             // We still need this for the share intent
