@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
 /**
@@ -169,6 +171,14 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
 
             //Read weather condition ID from cursor
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
+
+            // Use weather art image
+            Glide.with(this)
+                    .load(Utility.getArtUrlForWeatherCondition(getActivity(), weatherId))
+                    .error(Utility.getArtResourceForWeatherCondition(weatherId))
+                    .crossFade()
+                    .into(mIconView);
+
             int weatherCondnResource = Utility.getArtResourceForWeatherCondition(weatherId);
             mIconView.setImageResource(weatherCondnResource);
 

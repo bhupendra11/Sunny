@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts
  * from a {@link android.database.Cursor} to a {@link android.widget.ListView}.
@@ -95,6 +97,25 @@ public class ForecastAdapter extends CursorAdapter {
 
         // Weather icon for today and other days
         int viewType = getItemViewType(cursor.getPosition());
+        int fallBackIconId;
+
+        switch (viewType){
+            case VIEW_TYPE_TODAY:{
+                fallBackIconId = Utility.getArtResourceForWeatherCondition(weatherId);
+                break;
+            }
+            default:{
+                fallBackIconId = Utility.getIconResourceForWeatherCondition(weatherId);
+                break;
+            }
+        }
+
+        Glide.with(mContext)
+                .load(Utility.getArtUrlForWeatherCondition(mContext, weatherId))
+                .error(fallBackIconId)
+                .crossFade()
+                .into(viewHolder.iconView);
+
         int weatherResource = -1;
         if(viewType==VIEW_TYPE_TODAY){
            weatherResource = Utility.getArtResourceForWeatherCondition(weatherId);

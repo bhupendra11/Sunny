@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"
             android:id="@+id/detail_icon"
+            android:adjustViewBounds="true"
 
             />
         <TextView

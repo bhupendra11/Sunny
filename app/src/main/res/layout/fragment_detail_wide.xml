@@ -135,7 +135,7 @@
                                     android:layout_gravity="center"
                                     android:src="@mipmap/ic_launcher"
                                     android:id="@+id/detail_icon"
-
+                            android:adjustViewBounds="true"
 
                                     />
 
