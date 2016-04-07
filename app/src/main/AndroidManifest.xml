@@ -15,14 +15,12 @@
 
 
     <!-- Permissions related to GCM -->
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"/>
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.WAKELOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <permission 
-        android:name="sunny.app9ation.xyz.sunny.C2D_MESSAGE"
+        android:name="sunny.app9ation.xyz.sunny.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
-    <uses-permission android:name="sunny.app9ation.xyz.sunny.C2D_MESSAGE"/>
+    <uses-permission android:name="sunny.app9ation.xyz.sunny.permission.C2D_MESSAGE"/>
 
 
     <application
@@ -99,9 +97,28 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="com.example.android.sunshine.app" />
+                <category android:name="sunny.app9ation.xyz.sunny" />
             </intent-filter>
         </receiver>
+        <service
+            android:name=".gcm.MyGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".gcm.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".gcm.RegistrationIntentService"
+            android:exported="false" >
+        </service>
+
 
 
     </application>
