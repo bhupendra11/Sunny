@@ -45,7 +45,6 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
 
 
     private static final String[] DETAIL_COLUMNS = {
-
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
             WeatherContract.WeatherEntry.COLUMN_DATE,
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
@@ -89,7 +88,7 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
             mUri = arguments.getParcelable(DetailActivityFragment.DETAIL_URI);
         }
 
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_detail_start, container, false);
 
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
         mDateView = (TextView) rootView.findViewById(R.id.detail_date_textview);
