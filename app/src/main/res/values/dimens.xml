@@ -53,4 +53,6 @@
 
     <!-- For card view -->
     <dimen name="detail_card_elevation">6dp</dimen>
+
+    <dimen name="landscape_forecast_view_width">360dp</dimen>
 </resources>
