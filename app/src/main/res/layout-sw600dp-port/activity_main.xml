@@ -69,5 +69,6 @@
         tools:layout="@android:layout/list_content"
         android:choiceMode="singleChoice"
 
+
         />
 </RelativeLayout>

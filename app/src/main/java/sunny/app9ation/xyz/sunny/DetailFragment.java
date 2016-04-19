@@ -32,18 +32,22 @@ import sunny.app9ation.xyz.sunny.data.WeatherContract;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DetailActivityFragment extends Fragment  implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailFragment extends Fragment  implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    private static final String LOG_TAG = DetailActivityFragment.class.getSimpleName();
+    private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private static final String FORECAST_SHARE_HASHTAG ="#SunnyApp";
     private String mForecastStr;
     public static final int DETAIL_LOADER =0;
     private ShareActionProvider mShareActionProvider;
     static final String DETAIL_URI = "URI";
+    static final String DETAIL_TRANSITION_ANIMATION = "DTA";
 
     private TextView mDateView,  mHighTempView , mLowTempView, mHumidityView, mWindView , mPressureView, mDescriptionView,  mHumidityLabelView ,mWindLabelView, mPressureLabelView;
     private ImageView mIconView;
     private Uri mUri;
+    private boolean mTransitionAnimation;
+
+
 
 
     private static final String[] DETAIL_COLUMNS = {
@@ -77,7 +81,7 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
 
 
 
-    public DetailActivityFragment() {
+    public DetailFragment() {
     setHasOptionsMenu(true);
     }
 
@@ -87,7 +91,8 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         if(arguments !=null){
-            mUri = arguments.getParcelable(DetailActivityFragment.DETAIL_URI);
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+            mTransitionAnimation = arguments.getBoolean(DetailFragment.DETAIL_TRANSITION_ANIMATION);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail_start, container, false);
@@ -265,7 +270,7 @@ public class DetailActivityFragment extends Fragment  implements LoaderManager.L
         Toolbar toolbarView = (Toolbar) getView().findViewById(R.id.toolbar);
 
         // We need to start the enter transition after the data has loaded
-        if (activity instanceof DetailActivity) {
+        if (mTransitionAnimation) {
             activity.supportStartPostponedEnterTransition();
 
             if ( null != toolbarView ) {

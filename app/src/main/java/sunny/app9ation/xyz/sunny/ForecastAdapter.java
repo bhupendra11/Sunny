@@ -3,6 +3,7 @@ package sunny.app9ation.xyz.sunny;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,6 +197,13 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
                     .crossFade()
                     .into(forecastAdapterViewHolder.mIconView);
         }
+
+        //set transitionName of iconView
+        //this enables better animations
+        ///even if we lose state due to device rotation
+        // The animatorcan use this to refind the original view
+
+        ViewCompat.setTransitionName(forecastAdapterViewHolder.mIconView, "iconview"+ position);
 
         // Read date from cursor
         long dateInMillis = mCursor.getLong(ForecastFragment.COL_WEATHER_DATE);

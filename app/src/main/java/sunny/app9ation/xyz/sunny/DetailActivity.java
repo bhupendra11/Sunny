@@ -14,22 +14,24 @@ public class DetailActivity extends AppCompatActivity implements ForecastFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-/*
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         if(savedInstanceState ==null){
 
             Bundle arguments = new Bundle();
-            arguments.putParcelable(DetailActivityFragment.DETAIL_URI,getIntent().getData());
+            arguments.putParcelable(DetailFragment.DETAIL_URI,getIntent().getData());
+            arguments.putBoolean(DetailFragment.DETAIL_TRANSITION_ANIMATION,true);
 
-            DetailActivityFragment fragment = new DetailActivityFragment();
+            DetailFragment fragment = new DetailFragment();
             fragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.weather_detail_container,fragment)
                     .commit();
+
+            //Being here means we are in animation mode
+            supportPostponeEnterTransition();
+
+
         }
 
 
@@ -56,8 +58,11 @@ public class DetailActivity extends AppCompatActivity implements ForecastFragmen
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
     @Override
-    public void onItemSelected(Uri dateUri) {
+    public void onItemSelected(Uri dateUri, ForecastAdapter.ForecastAdapterViewHolder vh) {
 
     }
 }
