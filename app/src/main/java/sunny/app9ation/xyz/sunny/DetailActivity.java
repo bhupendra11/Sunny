@@ -60,7 +60,6 @@ public class DetailActivity extends AppCompatActivity implements ForecastFragmen
 
 
 
-
     @Override
     public void onItemSelected(Uri dateUri, ForecastAdapter.ForecastAdapterViewHolder vh) {
 

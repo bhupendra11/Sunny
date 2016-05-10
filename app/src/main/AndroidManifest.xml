@@ -22,6 +22,9 @@
         android:protectionLevel="signature"/>
     <uses-permission android:name="sunny.app9ation.xyz.sunny.permission.C2D_MESSAGE"/>
 
+    <!-- Permission for place picker API -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 
     <application
         android:allowBackup="true"
@@ -120,6 +123,11 @@
             android:exported="false" >
         </service>
 
+
+        <!--For google places API   -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCTyf7PPfwzY5A3QHux-Z6NEaYqd2Hl7GQ"/>
 
 
     </application>

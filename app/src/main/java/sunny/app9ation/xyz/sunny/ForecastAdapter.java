@@ -30,7 +30,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     final private ForecastAdapterOnClickHandler mClickHandler;
     final private View mEmptyView;
-
+    public static final String LOG_TAG = ForecastAdapter.class.getSimpleName();
 
     public ForecastAdapter(Context context, ForecastAdapterOnClickHandler dh, View emptyView, int choiceMode) {
         mContext = context;
@@ -132,8 +132,13 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     public void swapCursor(Cursor newCursor){
         mCursor = newCursor;
         notifyDataSetChanged();
+        //Log.d(LOG_TAG , "Item Count = "+ getItemCount());
 
-        mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE :View.GONE);
+        /*if(mEmptyView != null) {
+            Log.d(LOG_TAG , "Item Count = "+ getItemCount());
+
+            mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
+       }*/
     }
 
 
@@ -203,7 +208,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         ///even if we lose state due to device rotation
         // The animatorcan use this to refind the original view
 
-        ViewCompat.setTransitionName(forecastAdapterViewHolder.mIconView, "iconview"+ position);
+        ViewCompat.setTransitionName(forecastAdapterViewHolder.mIconView, "iconView" + position);
 
         // Read date from cursor
         long dateInMillis = mCursor.getLong(ForecastFragment.COL_WEATHER_DATE);

@@ -4,9 +4,10 @@
     android:id="@+id/fragment_forecast"
     android:name="sunny.app9ation.xyz.sunny.ForecastFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ForecastFragment"
     tools:layout="@android:layout/list_content"
-    app:sharedElementTransitions="true" />
+    app:sharedElementTransitions="true"
+    />
 
 
