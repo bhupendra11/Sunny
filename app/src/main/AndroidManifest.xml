@@ -118,31 +118,45 @@
         </service>
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <!-- For widget update -->
-        <service android:name=".widget.TodayWidgetIntentService"/>
+        <!-- For today widget update -->
+        <service android:name=".widget.TodayWidgetIntentService" />
+
+        <!-- For detail widget -->
+        <service android:name=".widget.DetailWidgetRemoteViewsService"
+            android:enabled="@bool/widget_detail_enabled"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <!-- For google places API -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCTyf7PPfwzY5A3QHux-Z6NEaYqd2Hl7GQ" />
 
-
-
         <!-- Today Widget -->
         <receiver
             android:name=".widget.TodayWidgetProvider"
-            android:label="@string/title_widget_today" >
+            android:label="@string/title_widget_today">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="sunny.app9ation.xyz.sunny.ACTION_DATA_UPDATED"/>
+                <action android:name="sunny.app9ation.xyz.sunny.ACTION_DATA_UPDATED" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_today" />
         </receiver>
+        <receiver android:name=".widget.DetailWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="sunny.app9ation.xyz.sunny.ACTION_DATA_UPDATED" />
+            </intent-filter>
 
-
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_detail" />
+        </receiver>
     </application>
 
 </manifest>

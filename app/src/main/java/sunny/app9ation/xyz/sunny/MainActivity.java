@@ -18,6 +18,7 @@ import android.view.View;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import sunny.app9ation.xyz.sunny.data.WeatherContract;
 import sunny.app9ation.xyz.sunny.gcm.RegistrationIntentService;
 import sunny.app9ation.xyz.sunny.sync.SunshineSyncAdapter;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocation = Utility.getPreferredLocation(this);
+        Uri contentUri = getIntent() != null ? getIntent().getData() : null;
 
         setContentView(R.layout.activity_main);
 
@@ -58,8 +60,15 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
             Log.d(LOG_TAG,"Inside MainActivity two pane UI");
 
             if (savedInstanceState == null) {
+                DetailFragment fragment = new DetailFragment();
+                            if (contentUri != null) {
+                                    Bundle args = new Bundle();
+                                    args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
+                                    fragment.setArguments(args);
+                                }
+
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
+                        .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
@@ -68,6 +77,10 @@ public class MainActivity extends AppCompatActivity  implements ForecastFragment
         ForecastFragment forecastFragment = ((ForecastFragment )getSupportFragmentManager().findFragmentById(R.id.fragment_forecast));
 
         forecastFragment.setUseTodayLayout(!mTwoPane);
+        if (contentUri != null) {
+            forecastFragment.setInitialSelectedDate(
+                    WeatherContract.WeatherEntry.getDateFromUri(contentUri));
+        }
 
         // If Google Play Services is up to date, we'll want to register GCM. If it is not, we'll
         // skip the registration and this device will not receive any downstream messages from
