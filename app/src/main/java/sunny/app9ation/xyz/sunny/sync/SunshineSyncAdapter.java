@@ -50,6 +50,7 @@ import sunny.app9ation.xyz.sunny.BuildConfig;
 import sunny.app9ation.xyz.sunny.MainActivity;
 import sunny.app9ation.xyz.sunny.R;
 import sunny.app9ation.xyz.sunny.Utility;
+import sunny.app9ation.xyz.sunny.muzei.WeatherMuzeiSource;
 import sunny.app9ation.xyz.sunny.data.WeatherContract;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
@@ -370,7 +371,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 //update widgets
                 updateWidgets();
-
+                updateMuzei();
                 notifyWeather();
             }
             Log.d(LOG_TAG, "Sync Complete. " + cVVector.size() + " Inserted");
@@ -654,4 +655,15 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         spe.putInt(c.getString(R.string.pref_location_status_key), locationStatus);
         spe.commit();
     }
+
+    private void updateMuzei() {
+        // Muzei is only compatible with Jelly Bean MR1+ devices, so there's no need to update the
+        // Muzei background on lower API level devices
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                Context context = getContext();
+                context.startService(new Intent(ACTION_DATA_UPDATED)
+                .setClass(context, WeatherMuzeiSource.class));
+            }
+    }
+
 }
