@@ -88,10 +88,6 @@ public class TodayWidgetIntentService extends IntentService {
 
             // Add the data to the RemoteViews
             views.setImageViewResource(R.id.widget_icon, weatherArtResourceId);
-            // Content Descriptions for RemoteViews were only added in ICS MR1
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                setRemoteContentDescription(views, description);
-            }
             views.setTextViewText(R.id.widget_description, description);
             views.setTextViewText(R.id.widget_high_temperature, formattedMaxTemperature);
             views.setTextViewText(R.id.widget_low_temperature, formattedMinTemperature);

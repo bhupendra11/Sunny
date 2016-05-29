@@ -14,7 +14,7 @@
         android:inputType="text"
         custom:minLength="3"/>
 
-    <ListPreference
+  <!--  <ListPreference
         android:title="@string/pref_temperature_units_label"
         android:key="@string/pref_temperature_units_key"
         android:defaultValue="@string/pref_temperature_units_default"
@@ -22,7 +22,14 @@
         android:entries="@array/tempListArray"
         android:entryValues="@array/tempListValues"
         android:singleLine="false"
-        />
+        />-->
+
+    <ListPreference
+        android:title="@string/pref_units_label"
+        android:key="@string/pref_units_key"
+        android:defaultValue="@string/pref_units_metric"
+        android:entryValues="@array/pref_units_values"
+        android:entries="@array/pref_units_options" />
 
     <ListPreference
         android:title="@string/pref_art_pack_label"

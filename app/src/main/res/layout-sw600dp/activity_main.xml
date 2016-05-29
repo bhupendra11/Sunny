@@ -31,6 +31,7 @@
             android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
             android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@id/toolbar"/>
 
 
@@ -43,6 +44,7 @@
             android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
             android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material"
             android:layout_toRightOf="@id/sunshineLogoAlign"
+            android:layout_toEndOf="@id/sunshineLogoAlign"
             android:src="@drawable/ic_logo"/>
 
     </RelativeLayout>
@@ -77,10 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignLeft="@id/layout_center"
+            android:layout_alignStart="@id/layout_center"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="?attr/actionBarSize"
-            android:layout_alignStart="@id/layout_center"
             android:elevation="@dimen/appbar_elevation"
             android:layout_marginRight="@dimen/list_item_extra_padding"
             android:layout_marginEnd="@dimen/list_item_extra_padding"
@@ -90,7 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignLeft="@id/cardviewAligner"
+            android:layout_alignStart="@id/cardviewAligner"
             android:layout_alignRight="@id/cardviewAligner"
+            android:layout_alignEnd="@id/cardviewAligner"
             android:layout_alignTop="@id/cardviewAligner"
             android:layout_alignBottom="@id/cardviewAligner"
             android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"

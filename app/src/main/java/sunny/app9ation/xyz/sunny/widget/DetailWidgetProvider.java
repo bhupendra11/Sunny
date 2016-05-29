@@ -86,4 +86,6 @@ public class DetailWidgetProvider extends AppWidgetProvider {
         views.setRemoteAdapter(0, R.id.widget_list,
                 new Intent(context, sunny.app9ation.xyz.sunny.widget.DetailWidgetRemoteViewsService.class));
     }
+
 }
+

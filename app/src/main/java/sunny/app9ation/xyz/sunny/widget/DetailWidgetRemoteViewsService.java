@@ -35,6 +35,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMP
     };
+
     // these indices must match the projection
     static final int INDEX_WEATHER_ID = 0;
     static final int INDEX_WEATHER_DATE = 1;
